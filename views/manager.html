@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/public/css/manager.css" rel="stylesheet">
+
+    <style>
+        td {
+            vertical-align: middle !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">学生成绩管理系统
+        </a>
+        
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <span data-feather="home"></span>
+                                首页 <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                <span data-feather="file"></span>
+                                学生成绩
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="users"></span>
+                                用户管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="layers"></span>
+                                修改密码
+                            </a>
+                        </li>
+                    </ul>
+
+                    <h6
+                        class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Saved reports</span>
+                        <a class="d-flex align-items-center text-muted" href="#">
+                            <span data-feather="plus-circle"></span>
+                        </a>
+                    </h6>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <h2>学生成绩管理</h2>
+                <form class="form-inline" style="margin-bottom: 10px">
+                        <div class="form-group">
+                          <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="exampleInputAmount" placeholder="请输入学生学号">
+                          </div>
+                        </div>
+
+                        <a class="btn btn-primary" style="margin-left: 10px" href="">查找</a>
+                        <a class="btn btn-primary" style="margin-left: 10px" href="/add">新增</a>
+                        
+                      </form>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>学号</th>
+                                <th>年级</th>
+                                <th>学科</th>
+                                <th>成绩</th>
+                                <th>是否合格</th>
+                                <th>管理</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ each grade }}
+                            <tr>
+                                
+                                <td>{{ $value.id }}</td>
+                                <td>{{ $value.class }}</td>
+                                <td>{{ $value.subject }}</td>
+                                <td>{{ $value.score }}</td>
+                                <td>{{ $value.pass }}</td>
+                                
+                                <td>
+                                    <a  class="btn btn-primary btn-xs" href="/edit?id={{ $value._id }}">编辑</a>
+                                    <a class="btn btn-success" href="/delete?id={{ $value._id }}">删除</a>
+                                    
+                                </td>
+                            </tr>
+                            {{ /each }}
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <!-- <script src="/node_modules/bootstrap/js/dist/popover.js"></script> -->
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+
+    <!-- 图标 -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+        feather.replace()
+    </script>
+    <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
+    // $('#grade_form').on('submit', function (e) {
+    //     e.preventDefault()
+    //     var formData = $(this).serialize()
+    //     $.ajax({
+    //         url: '/',
+    //         type: 'post',
+    //         data: formData,
+    //         dataType: 'json',
+    //         success:function(data){
+    //             console.log(data)
+    //             var err_code = data.err_code
+    //             if (err_code === 0) {
+    //                 // window.alert('注册成功！')
+    //                 // 服务端重定向针对异步请求无效
+    //                 window.location.href = '/login'
+    //             } else if (err_code === 1) {
+    //                 window.alert('用户已存在！')
+    //             } 
+    //             else if (err_code === 500) {
+    //                 window.alert('服务器忙，请稍后重试！')
+    //             }
+    //         }
+    //     })
+    // })
+    
+    </script>
+</body>
+
+</html>

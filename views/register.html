@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/public/css/body.css" />
+</head>
+
+<body>
+    <div class="container">
+        <section id="content">
+            <form action="/register" id="register_form" method="post">
+                <h1>注册</h1>
+                <div>
+                    <input type="text" placeholder="账号" required="" id="username" name="studentusername" />
+                </div>
+                <div>
+                    <input type="password"
+                    maxlength="12"placeholder="密码" required="" id="password" name="password"/>
+                </div>
+                <div>
+                    <input type="password"
+                    maxlength="12"placeholder="重复密码" required="" id="password" name="repeatpassword"/>
+                </div>
+                <div >
+                    <span class="help-block u-errormessage" id="js-server-helpinfo">&nbsp;</span>
+                </div>
+                <input type="radio" name="chara" value="教师">教师
+				<input type="radio" name="chara" value="学生" checked="checked">学生
+                <div>
+                <input type="submit" value="立即注册" class="btn btn-primary" /> 
+                <a href="/login">已有账号,请登录</a>
+                
+                </div>     
+            </form>
+            
+        </section>
+    </div>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+    $('#register_form').on('submit', function (e) {
+        e.preventDefault()
+        var formData = $(this).serialize()
+        $.ajax({
+            url: '/register',
+            type: 'post',
+            data: formData,
+            dataType: 'json',
+            success:function(data){
+                console.log(data)
+                var err_code = data.err_code
+                if (err_code === 0) {
+                    // window.alert('注册成功！')
+                    // 服务端重定向针对异步请求无效
+                    window.location.href = '/login'
+                } else if (err_code === 1) {
+                    window.alert('用户已存在！')
+                } 
+                else if(err_code === 2){
+                    window.alert('两次输入的密码不相同')
+                }
+                else if (err_code === 500) {
+                    window.alert('服务器忙，请稍后重试！')
+                }
+            }
+        })
+    })
+    </script>
+</body>
+
+</html>
